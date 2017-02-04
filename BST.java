@@ -17,8 +17,6 @@ class Node {
 
 class BST {
 
-    int a[], i = 0;
-
     public Node addNode(int data, Node head) {
         Node tempHead = head;
         Node n = Node.makeNode(data);
