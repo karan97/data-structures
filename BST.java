@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 class Node {
 
     int data;
@@ -14,6 +16,8 @@ class Node {
 }
 
 class BST {
+
+    int a[], i = 0;
 
     public Node addNode(int data, Node head) {
         Node tempHead = head;
@@ -39,64 +43,95 @@ class BST {
         return tempHead;
     }
 
-    public int height(Node root) {
-        if (root == null) {
+    public int height(Node head) {
+        if (head == null) {
             return 0;
         }
-        int leftHeight = height(root.left);
-        int rightHeight = height(root.right);
+        int leftHeight = height(head.left);
+        int rightHeight = height(head.right);
         return Math.max(leftHeight, rightHeight) + 1;
     }
 
     // A function to search a given key in BST
-    public String search(Node root, int data) {
+    public String search(Node head, int data) {
         try {
-        	// Base Cases: root is null or key is present at root
-        	if (root.data==data)
-        	    return "Found";
-        	
-        	// val is greater than root's data
-        	if (root.data > data)
-        	    return search(root.left, data);
-        	
-        	// val is less than root's data
-        	return search(root.right, data);
+        	if (head.data==data)
+        	    return "Found " + data;        	
+        	if (head.data > data)
+        	    return search(head.left, data);
+        	return search(head.right, data);
         }
         catch(NullPointerException e) {
         	return "Element not found";
         }
     }
 
-    public void inOrder(Node root) {
-        if (root == null) {
+    public void inOrder(Node head) {
+        if (head == null) {
             return;
         }
-        inOrder(root.left);
-        System.out.print(root.data + " ");
-        inOrder(root.right);
+        inOrder(head.left);
+        System.out.print(head.data + " ");
+        inOrder(head.right);
     }
 
-    public void preOrder(Node root) {
-        if (root == null) {
+    public void preOrder(Node head) {
+        if (head == null) {
             return;
         }
-        System.out.print(root.data + " ");
-        preOrder(root.left);
-        preOrder(root.right);
+        System.out.print(head.data + " ");
+        preOrder(head.left);
+        preOrder(head.right);
     }
 
-    public void postOrder(Node root) {
-        if (root == null) {
+    public void postOrder(Node head) {
+        if (head == null) {
             return;
         }
-        postOrder(root.left);
-        postOrder(root.right);
-        System.out.print(root.data + " ");
+        postOrder(head.left);
+        postOrder(head.right);
+        System.out.print(head.data + " ");
+    }
+
+    //Inorder traversing without recursion
+    public void inOrderWOrec(Node head) {
+        if (head == null) {
+            return;
+        }
+                
+        //keep the nodes in the path that are waiting to be visited
+        Stack<Node> stack = new Stack<Node>();
+        Node node = head;
+         
+        //first node to be visited will be the left one
+        while (node != null) {
+            stack.push(node);
+            node = node.left;
+        }
+         
+        // traverse the tree
+        while (stack.size() > 0) {
+           
+            // visit the top node
+            node = stack.pop();
+            System.out.print(node.data + " ");
+            if (node.right != null) {
+                node = node.right;
+                 
+                // the next node to be visited is the leftmost
+                while (node != null) {
+                    stack.push(node);
+                    node = node.left;
+                }
+            }
+        }
     }
 
     public static void main(String args[]) {
+        
         BST bt = new BST();
         Node head = null;
+        
         //Adding nodes
         head = bt.addNode(10, head);
         head = bt.addNode(15, head);
@@ -106,14 +141,20 @@ class BST {
         head = bt.addNode(20, head);
         head = bt.addNode(-1, head);
         head = bt.addNode(21, head);
+        
         //printing nodes using different traversals
-        System.out.println("Inorder: ");
+        System.out.println("Inorder (Recursion): ");
         bt.inOrder(head);
         System.out.println("\n Preorder: ");
         bt.preOrder(head);
         System.out.println("\n Postorder: ");
         bt.postOrder(head);
+
         //Searching Element
         System.out.println("\n"+bt.search(head, 21));
+
+        //printing without recursion
+        System.out.println("Inorder (without Recursion): ");
+        bt.inOrderWOrec(head);
     }
 }
