@@ -125,6 +125,28 @@ class BST {
         }
     }
 
+    //Find the smallest element 
+    public Node findSmallest(Node head) {
+    	if(head == null) {
+    		return null;
+    	}
+    	while(head.left != null) {
+    		head = head.left;
+    	}
+    	return head;
+    }
+
+    //Find the largest element 
+    public Node findLargest(Node head) {
+    	if(head == null) {
+    		return null;
+    	}
+    	while(head.right != null) {
+    		head = head.right;
+    	}
+    	return head;
+    }
+
     public static void main(String args[]) {
         
         BST bt = new BST();
@@ -140,7 +162,7 @@ class BST {
         head = bt.addNode(-1, head);
         head = bt.addNode(21, head);
         
-        //printing nodes using different traversals
+        //Printing nodes using different traversals
         System.out.println("Inorder (Recursion): ");
         bt.inOrder(head);
         System.out.println("\n Preorder: ");
@@ -149,10 +171,16 @@ class BST {
         bt.postOrder(head);
 
         //Searching Element
-        System.out.println("\n"+bt.search(head, 21));
+        System.out.println("\n" + bt.search(head, 21));
 
-        //printing without recursion
+        //Printing without recursion
         System.out.println("Inorder (without Recursion): ");
         bt.inOrderWOrec(head);
+
+        //Printing the smallest node
+        System.out.println("\nThe Smallest element is " + bt.findSmallest(head).data);
+
+        //Printing the largest node
+        System.out.println("\nThe Largest element is " + bt.findLargest(head).data);
     }
 }
