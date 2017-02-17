@@ -125,6 +125,41 @@ class BST {
         }
     }
 
+    //Preorder traversing without recursion
+    public void preOrderWOrec(Node head) {
+        if(head == null) {
+            return;
+        }
+       
+        //keep the nodes in the path that are waiting to be visited
+        Stack<Node> stack = new Stack<Node>();
+        Node temp = head;
+        
+        //first node to be visited will be the left one
+        while(temp != null) {
+            System.out.print(temp.data + " ");
+            stack.push(temp);
+            temp = temp.left;
+        }
+
+        // traverse the tree
+        while(stack.size() > 0) {
+
+            // visit the node
+            temp = stack.pop();
+            if(temp.right != null) {
+                System.out.print(temp.right.data + " ");
+                temp = temp.right;
+                
+                // the next node to be visited is the leftmost
+                while(temp != null) {
+                    stack.push(temp);
+                    temp = temp.left;
+                }
+            }
+        }
+    }
+
     //Find the smallest element 
     public Node findSmallest(Node head) {
     	if(head == null) {
@@ -162,20 +197,29 @@ class BST {
         head = bt.addNode(-1, head);
         head = bt.addNode(21, head);
         
-        //Printing nodes using different traversals
-        System.out.println("Inorder (Recursion): ");
+        //Inorder
+        System.out.print("Inorder (Recursion): ");
         bt.inOrder(head);
-        System.out.println("\n Preorder: ");
+        System.out.println();
+        System.out.print("Inorder (without Recursion): ");
+        bt.inOrderWOrec(head);
+        System.out.println();
+
+        //PreOrder
+        System.out.print("Preorder (Recursion): ");
         bt.preOrder(head);
-        System.out.println("\n Postorder: ");
+        System.out.println();
+        System.out.print("Preorder (without Recursion): ");
+        bt.preOrderWOrec(head);
+        System.out.println();
+
+        //PostOrder
+        System.out.print("Postorder (Recursion): ");
         bt.postOrder(head);
+        System.out.println();
 
         //Searching Element
         System.out.println("\n" + bt.search(head, 21));
-
-        //Printing without recursion
-        System.out.println("Inorder (without Recursion): ");
-        bt.inOrderWOrec(head);
 
         //Printing the smallest node
         System.out.println("\nThe Smallest element is " + bt.findSmallest(head).data);
